@@ -1,24 +1,58 @@
-## Disaster Response Pipelines
-### Table of Contents
+## Project Overview
 
-[Installation](#Installation)
+In this course, you've learned and built on your data engineering skills to expand your opportunities and potential as a data scientist. In this project, you'll apply these skills to analyze disaster data from Figure Eight to build a model for an API that classifies disaster messages.
 
-[Project Motivation](#Motivation)
+In the Project Workspace, you'll find a data set containing real messages that were sent during disaster events. You will be creating a machine learning pipeline to categorize these events so that you can send the messages to an appropriate disaster relief agency.
 
-[Project Descriptions](#Descriptions)
+Your project will include a web app where an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data. This project will show off your software skills, including your ability to create basic data pipelines and write clean, organized code!
 
-[Files Descriptions](#Description)
 
-[Instructions](#Instructions)
 
-### Installation<a name="Installation"></a>
 
-All libraries are available in Anaconda distribution of Python. The used libraries are:
+## Project Components
+* There are three components you'll need to complete for this project.
+
+
+1. ETL Pipeline
+
+In a Python script, process_data.py, write a data cleaning pipeline that:
+
+- Loads the messages and categories datasets
+- Merges the two datasets
+- Cleans the data
+- Stores it in a SQLite database
+
+
+
+
+2. ML Pipeline
+
+* In a Python script, train_classifier.py, write a machine learning pipeline that:
+
+- Loads data from the SQLite database
+- Splits the dataset into training and test sets
+- Builds a text processing and machine learning pipeline
+- Trains and tunes a model using GridSearchCV
+- Outputs results on the test set
+- Exports the final model as a pickle file
+
+
+
+
+
+3. Flask Web App
+
+We are providing much of the flask web app for you, but feel free to add extra features depending on your knowledge of flask, html, css and javascript. For this part, you'll need to:
+
+
+- Modify file paths for database and model as needed
+- Add data visualizations using Plotly in the web app. One example is provided for you
+
+
+
+### the libraries used in project 
 
 - pandas
-- re
-- sys
-- json
 - sklearn
 - nltk
 - sqlalchemy
@@ -26,76 +60,47 @@ All libraries are available in Anaconda distribution of Python. The used librari
 - Flask
 - plotly
 - sqlite3
+- json
 
-The code should run using Python versions 3.*.
 
-### Project Motivation<a name="Motivation"></a>
 
-The goal of the project is to classify the disaster messages into categories. In this project, I analyzed disaster data from [Figure Eight](https://appen.com/) to build a model for an API that classifies disaster messages. Through a web app, the user can input a new message and get classification results in several categories. The web app also display visualizations of the data.
+## Deployment
 
-### Project Descriptions<a name="Description"></a>
+I'm using [digitalocean](https://www.digitalocean.com/) (free tier available) to host this site. See their simple guide to ["Setting up Flask applications on digitalocean"](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-app-using-gunicorn-to-app-platform).
 
-The project has three componants which are:
 
-#### ETL Pipeline: [process_data.py](https://github.com/Suveesh/Disaster-Response-Pipeline/blob/main/data/process_data.py) file contain the script to create ETL pipline which:
+## Built With
 
-- [x] Loads the messages and categories datasets.
-- [x] Merges the two datasets
-- [x] Cleans the data
-- [x] Stores it in a SQLite database
+- [Flask](https://flask.palletsprojects.com/en/1.1.x/) - The web application framework used
+- [Plotly](https://plotly.com/python/) - For data visualization
+- [NLTK](https://www.nltk.org/) - Natural Language Toolkit for text processing methods
+- [Scikit-Learn](https://scikit-learn.org/) - Python machine learning library
+- [SQLAlchemy](https://www.sqlalchemy.org/) and [SQLite](https://sqlite.org) - SQL toolkit and databse engine
+- [Appen (formerly FigureEight)](https://appen.com/) - Training data source
+- [PythonAnywhere](https://www.pythonanywhere.com/) - Cloud platform used for deployment
 
-#### ML Pipeline: [train_classifier.py](https://github.com/Suveesh/Disaster-Response-Pipeline/blob/main/model/train_classifier.py) file contain the script to create ML pipline which:
 
-- [x] Loads data from the SQLite database
-- [x] Splits the dataset into training and test sets
-- [x] Builds a text processing and machine learning pipeline
-- [x] Trains and tunes a model using GridSearchCV
-- [x] Outputs results on the test set
-- [x] Exports the final model as a pickle file
+## Train New Data
 
-#### Flask Web App: the web app enables the user to enter a disaster message, and then view the categories of the message.
+It is possible to use the repository to train a new dataset although you will need to follow a strict schema. The training data should be separated into two separate CSV files: a messages dataset of exactly four columns and a target labels dataset with any number of columns.
 
-- [x] The web app also contains some visualizations that describe the data.
+1. Run the following commands in the project's root directory to set up your database and model.
 
-### Files Descriptions
+   - To run ETL pipeline that cleans data and stores in database
 
-#### The files structure is arranged as below:
+     ```cli
+       python data/process_data.py [path/to/messages.csv] [path/to/categories.csv] [/path/to/database.db]
+     ```
 
-- README.md: read me file
-- Project Components.txt: Project requirements to complete
-- workspace
-	- \app
-		- run.py: flask file to run the app
-	- \templates
-		- master.html: main page of the web application 
-		- go.html: result web page
-	- \data
-		- disaster_categories.csv: categories dataset
-		- disaster_messages.csv: messages dataset
-		- DisasterResponse.db: disaster response database
-		- process_data.py: ETL process
-	- \models
-		- train_classifier.py: classification code
-		- MLclassifier.pkl: model pickle file
-		
-	- \Pipeline Preparation
-		- ETL Pipeline Preparation.py
-		- ML Pipeline Preparation.py
+     For example, in the current repo, you can run `python data/process_data.py data/disaster_messages.csv data/disaster_categories.csv data/DisasterResponse.db`
 
-### Instructions<a name="Instruction"></a>
+   - To run ML pipeline that trains classifier and saves
+     `python models/train_classifier.py data/DisasterResponse.db models/classifier.pkl`
 
-To execute the app follow the instructions:
+1. Run the following command in the app's directory to run your web app.
+   `python app/run.py`
 
-   Run the following commands in the project's root directory to set up your database and model.
-        To run ETL pipeline that cleans data and stores in database python 'data/process_data.py data/disaster_messages.csv' 'data/disaster_categories.csv' 'data/DisasterResponse.db'
-        To run ML pipeline that trains classifier and saves python 'models/train_classifier.py' 'data/DisasterResponse.db' 'models/classifier.pkl'
+for see the project in local computer go to the link .
 
-   Run the following command in the app's directory to run your web app. python run.py
+1. Go to http://0.0.0.0:3001/ or [localhost:3001](http://localhost:3001/)
 
-   Go to http://0.0.0.0:3001/
-   
-   ### License and Acknowledgement:
-   
-   Udacity - Data Science Nano Degree
-   
-   ### Contact Me at [LinkedIn](https://www.linkedin.com/in/suveesh-malachiyil/)
